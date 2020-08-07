@@ -1,10 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { GlobalContext, GET_USERS } from '../context/GlobalState';
-import { Card, CardImg, CardBody, CardText, Button, Spinner } from 'reactstrap';
+import { GlobalContext } from '../context/GlobalState';
+import { Card, CardImg, CardBody, CardText, Button } from 'reactstrap';
+import Loading from './Loading';
 
 const Home = () => {
   const [text, setText] = useState('');
-  const { users, getAllUsers } = useContext(GlobalContext);
+  const { users, modal, getAllUsers, getSingleUser } = useContext(
+    GlobalContext
+  );
 
   useEffect(() => {
     getAllUsers();
@@ -14,20 +17,25 @@ const Home = () => {
     <>
       {users !== null ? (
         <>
-          <input
-            type='text'
-            placeholder='enter firstname'
-            className='m-3 text-center w-25'
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-          />
+          <div className='text-center'>
+            <input
+              type='text'
+              placeholder='enter firstname'
+              className='m-3 p-2 text-center w-25'
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+            />
+          </div>
           <div className='d-flex flex-wrap align-items-center justify-content-center'>
             {users.data
               .filter((user) =>
                 user.first_name.toLowerCase().includes(text.toLowerCase())
               )
               .map((user) => (
-                <Card key={user.id} className='p-4 mx-4 my-2 shadow-sm text-center'>
+                <Card
+                  key={user.id}
+                  className='p-4 mx-4 my-2 shadow-sm text-center'
+                >
                   <CardImg
                     top
                     width='100%'
@@ -39,29 +47,28 @@ const Home = () => {
                       {user.first_name} {user.last_name}
                     </CardText>
                     {/* <CardText>{user.email}</CardText> */}
-                    <Button color='info' className='shadow-sm w-100'>
+                    <Button
+                      outline
+                      color='primary'
+                      className='shadow w-100'
+                      onClick={() => getSingleUser(user.id)}
+                    >
                       Show Profile
                     </Button>
                   </CardBody>
                 </Card>
               ))}
           </div>
+          {users !== null && users.page < users.total_pages && (
+            <div className='text-center my-4'>
+              <Button color='primary' onClick={() => getAllUsers(2)}>
+                Show more
+              </Button>
+            </div>
+          )}
         </>
       ) : (
-        <div className='text-center'>
-          <Spinner type='grow' color='primary' className='m-3' />
-          <Spinner type='grow' color='secondary' className='m-3' />
-          <Spinner type='grow' color='success' className='m-3' />
-          <Spinner type='grow' color='danger' className='m-3' />
-          <Spinner type='grow' color='warning' className='m-3' />
-        </div>
-      )}
-      {users !== null && users.page < users.total_pages && (
-        <div className='text-center my-4'>
-          <Button color='primary' onClick={() => getAllUsers(2)}>
-            Show more
-          </Button>
-        </div>
+        <Loading />
       )}
     </>
   );
