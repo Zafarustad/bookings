@@ -1,40 +1,50 @@
-import React, { useContext, useEffect } from 'react';
-import { GlobalContext } from '../context/GlobalState';
+import React, { useContext, useEffect, useState } from 'react';
+import { GlobalContext, GET_USERS } from '../context/GlobalState';
 import { Card, CardImg, CardBody, CardText, Button, Spinner } from 'reactstrap';
 
 const Home = () => {
+  const [text, setText] = useState('');
   const { users, getAllUsers } = useContext(GlobalContext);
 
   useEffect(() => {
     getAllUsers();
   }, []);
-  console.log(users);
 
   return (
     <>
       {users !== null ? (
         <>
-          <input type='text' placeholder='search user'/>
+          <input
+            type='text'
+            placeholder='enter firstname'
+            className='m-3 text-center w-25'
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+          />
           <div className='d-flex flex-wrap align-items-center justify-content-center'>
-            {users.data.map((user) => (
-              <Card key={user.id} className='p-4 m-4 shadow-sm text-center'>
-                <CardImg
-                  top
-                  width='100%'
-                  src={user.avatar}
-                  className='rounded-circle'
-                />
-                <CardBody>
-                  <CardText>
-                    {user.first_name} {user.last_name}
-                  </CardText>
-                  {/* <CardText>{user.email}</CardText> */}
-                  <Button color='info' className='shadow-sm w-100'>
-                    Show Profile
-                  </Button>
-                </CardBody>
-              </Card>
-            ))}
+            {users.data
+              .filter((user) =>
+                user.first_name.toLowerCase().includes(text.toLowerCase())
+              )
+              .map((user) => (
+                <Card key={user.id} className='p-4 mx-4 my-2 shadow-sm text-center'>
+                  <CardImg
+                    top
+                    width='100%'
+                    src={user.avatar}
+                    className='rounded-circle'
+                  />
+                  <CardBody>
+                    <CardText>
+                      {user.first_name} {user.last_name}
+                    </CardText>
+                    {/* <CardText>{user.email}</CardText> */}
+                    <Button color='info' className='shadow-sm w-100'>
+                      Show Profile
+                    </Button>
+                  </CardBody>
+                </Card>
+              ))}
           </div>
         </>
       ) : (
