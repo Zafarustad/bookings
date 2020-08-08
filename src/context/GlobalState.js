@@ -54,6 +54,7 @@ export const GlobalProvider = ({ children }) => {
         modal: state.modal,
         getAllUsers,
         getSingleUser,
+        closeModal
       }}
     >
       {children}
