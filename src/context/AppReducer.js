@@ -3,6 +3,9 @@ import {
   GET_SINGLE_USER,
   OPEN_MODAL,
   CLOSE_MODAL,
+  SET_ERRORS,
+  CLEAR_MESSAGES,
+  SET_SUCCESS_MESSAGE,
 } from './GlobalState';
 
 const AppReducer = (state, action) => {
@@ -35,6 +38,26 @@ const AppReducer = (state, action) => {
       return {
         ...state,
         user: action.payload,
+      };
+    }
+
+    case SET_SUCCESS_MESSAGE: {
+      return {
+        ...state,
+        message: action.payload,
+      };
+    }
+    case SET_ERRORS: {
+      return {
+        ...state,
+        errors: action.payload,
+      };
+    }
+    case CLEAR_MESSAGES: {
+      return {
+        ...state,
+        errors: null,
+        message: null,
       };
     }
 

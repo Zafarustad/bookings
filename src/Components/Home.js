@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { GlobalContext } from '../context/GlobalState';
-import { Card, CardImg, CardBody, CardText, Button } from 'reactstrap';
+import { Card, CardBody, CardText, Button } from 'reactstrap';
 import Loading from './Loading';
 import UserModal from './UserModal';
 
 const Home = () => {
   const [text, setText] = useState('');
-  const { users, modal, getAllUsers, getSingleUser } = useContext(
+  const { users, getAllUsers, getSingleUser } = useContext(
     GlobalContext
   );
 
@@ -37,6 +37,7 @@ const Home = () => {
                     width='130px'
                     src={user.avatar}
                     className='rounded-circle position-relative shadow-lg user-image'
+                    alt='user_image'
                   />
                   <Card
                     key={user.id}
