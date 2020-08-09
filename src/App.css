@@ -20,9 +20,17 @@ body {
   width: 300px;
   border-radius: 10px;
   border: 0px solid;
+  padding: 12px;
 }
 
 .user-image {
   bottom: -35px;
   z-index: 1
+}
+
+.show-more:hover {
+  box-shadow: 0 1rem 3rem rgba(0,0,0,.3);
+  background: #007bff;
+  transition: 1s;
+  border: 0px solid transparent
 }

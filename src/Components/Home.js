@@ -21,7 +21,7 @@ const Home = () => {
           <input
             type='text'
             placeholder='Enter Firstname'
-            className='m-3 p-2 text-center input shadow'
+            className='m-3 text-center input shadow'
             value={text}
             onChange={(e) => setText(e.target.value)}
           />
@@ -32,7 +32,7 @@ const Home = () => {
                 user.first_name.toLowerCase().includes(text.toLowerCase())
               )
               .map((user) => (
-                <div>
+                <div key={user.id}>
                   <img
                     width='130px'
                     src={user.avatar}
@@ -40,7 +40,7 @@ const Home = () => {
                   />
                   <Card
                     key={user.id}
-                    className='p-4 mx-4 my-2 shadow-lg text-center'
+                    className='p-4 mx-4 my-2 shadow-lg text-center user-card'
                   >
                     <CardBody>
                       <CardText>
@@ -62,7 +62,7 @@ const Home = () => {
           </div>
           {users !== null && users.page < users.total_pages && (
             <div className='text-center my-4'>
-              <Button color='primary' onClick={() => getAllUsers(2)}>
+              <Button color='primary' className='show-more' onClick={() => getAllUsers(2)}>
                 Show more
               </Button>
             </div>
