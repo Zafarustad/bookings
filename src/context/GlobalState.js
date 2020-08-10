@@ -19,6 +19,8 @@ const initialState = {
   message: null,
 };
 
+const uri = 'https://user-booking.herokuapp.com'
+
 export const GlobalContext = createContext();
 
 export const GlobalProvider = ({ children }) => {
@@ -58,7 +60,7 @@ export const GlobalProvider = ({ children }) => {
 
   async function bookSlot(data) {
     try {
-      const res = await axios.post('http://localhost:5000/booking', data);
+      const res = await axios.post(`${uri}/booking`, data);
       dispatch({
         type: SET_SUCCESS_MESSAGE,
         payload: res.data.message,

@@ -15,6 +15,7 @@ import 'react-calendar/dist/Calendar.css';
 const UserModal = () => {
   const [date, setDate] = useState(new Date());
   const [calendar, toggleCalendar] = useState(false);
+  const [disabled, setDisabled] = useState(false);
 
   const {
     user,
@@ -38,11 +39,12 @@ const UserModal = () => {
     closeModal();
   };
 
-
-  const onSubmit = (firstname, email) => {
+  const onSubmit = async (firstname, email) => {
+    setDisabled(true);
     const bookingDate = moment(date).format('L');
     const data = { firstname, email, bookingDate };
-    bookSlot(data);
+    await bookSlot(data);
+    setDisabled(false);
   };
 
   return (
@@ -94,8 +96,9 @@ const UserModal = () => {
                   onClick={() =>
                     onSubmit(user.data.first_name, user.data.email)
                   }
+                  disabled={disabled}
                 >
-                  Book a slot
+                    Book a slot
                 </Button>
                 <Button
                   color='danger'
